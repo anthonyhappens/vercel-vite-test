@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'nonce-a4BbIyL0ahXgyyxX0g}n|8LOryCzlRyI'; style-src 'self' 'nonce-a4BbIyL0ahXgyyxX0g}n|8LOryCzlRyI'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self';"
+    />
+    <title>CSP Nonce Test</title>
+
+    <!-- 這個樣式應該被 CSP 允許，因為有正確的 nonce -->
+    <style nonce="a4BbIyL0ahXgyyxX0g}n|8LOryCzlRyI">
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f0f0f0;
+      }
+      .test-box {
+        background-color: #4caf50;
+        color: white;
+        padding: 20px;
+        border-radius: 5px;
+        margin: 10px 0;
+      }
+      .error-box {
+        background-color: #f44336;
+        color: white;
+        padding: 20px;
+        border-radius: 5px;
+        margin: 10px 0;
+      }
+    </style>
+
+    <!-- 這個樣式應該被 CSP 阻擋，因為沒有 nonce -->
+    <style>
+      .blocked-style {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSP Nonce 測試頁面</h1>
+
+    <div class="test-box">
+      <h2>✅ 允許的樣式</h2>
+      <p>這個綠色背景是由帶有正確 nonce 的 &lt;style&gt; 標籤產生的。</p>
+    </div>
+
+    <div class="blocked-style">
+      <h2>❌ 被阻擋的樣式</h2>
+      <p>
+        如果 CSP 正常運作，這個區塊不應該有紅色背景，因為相關的樣式沒有 nonce。
+      </p>
+    </div>
+
+    <div id="script-test">
+      <h2>腳本測試</h2>
+      <p id="script-result">等待腳本執行...</p>
+    </div>
+
+    <!-- 這個腳本應該被 CSP 允許，因為有正確的 nonce -->
+    <script nonce="a4BbIyL0ahXgyyxX0g}n|8LOryCzlRyI">
+      document.getElementById("script-result").textContent =
+        "✅ 帶有 nonce 的腳本成功執行！";
+      console.log("Nonce script executed successfully");
+    </script>
+
+    <!-- 這個腳本應該被 CSP 阻擋，因為沒有 nonce -->
+    <script>
+      document.body.style.backgroundColor = "red";
+      console.log("This script should be blocked by CSP");
+    </script>
+
+    <div
+      style="
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #e7f3ff;
+        border-left: 4px solid #2196f3;
+      "
+    >
+      <h3>測試說明：</h3>
+      <ul>
+        <li>打開瀏覽器的開發者工具（F12）</li>
+        <li>查看 Console 標籤頁，應該會看到 CSP 違規警告</li>
+        <li>查看 Network 標籤頁的 Response Headers，確認 CSP 政策正確設定</li>
+        <li>如果背景不是紅色，且只看到綠色框，表示 CSP nonce 設定正確</li>
+      </ul>
+    </div>
+  </body>
+</html>
