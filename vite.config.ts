@@ -5,30 +5,31 @@ const cspNonce = "nonce-a4BbIyL0ahXgyyxX0g8LOryCzlRyI";
 // const nonceValue = "a4BbIyL0ahXgyyxX0g}n|8LOryCzlRyI";
 
 // 自定義插件來處理 nonce 注入
-const noncePlugin = () => {
-  return {
-    name: "nonce-plugin",
-    transformIndexHtml(html: string) {
-      // 確保所有的 script 和 style 標籤都有 nonce 屬性
-      return html
-        .replace(
-          /<script(?![^>]*nonce=)([^>]*)>/g,
-          `<script nonce="${cspNonce}"$1>`
-        )
-        .replace(
-          /<style(?![^>]*nonce=)([^>]*)>/g,
-          `<style nonce="${cspNonce}"$1>`
-        );
-    },
-  };
-};
+// const noncePlugin = () => {
+//   return {
+//     name: "nonce-plugin",
+//     transformIndexHtml(html: string) {
+//       // 確保所有的 script 和 style 標籤都有 nonce 屬性
+//       return html
+//         .replace(
+//           /<script(?![^>]*nonce=)([^>]*)>/g,
+//           `<script nonce="${cspNonce}"$1>`
+//         )
+//         .replace(
+//           /<style(?![^>]*nonce=)([^>]*)>/g,
+//           `<style nonce="${cspNonce}"$1>`
+//         );
+//     },
+//   };
+// };
 
 // https://vite.dev/config/
 export default defineConfig({
   html: {
     cspNonce,
   },
-  plugins: [react(), noncePlugin()],
+  plugins: [react()],
+  // plugins: [react(), noncePlugin()],
   publicDir: "static",
   build: {
     outDir: "public",
