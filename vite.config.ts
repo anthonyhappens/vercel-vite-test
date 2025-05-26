@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-const cspNonce = "nonce-a4BbIyL0ahXgyyxX0g}n|8LOryCzlRyI";
-const nonceValue = "a4BbIyL0ahXgyyxX0g}n|8LOryCzlRyI";
+const cspNonce = "nonce-a4BbIyL0ahXgyyxX0g8LOryCzlRyI";
+// const nonceValue = "a4BbIyL0ahXgyyxX0g}n|8LOryCzlRyI";
 
 // 自定義插件來處理 nonce 注入
 const noncePlugin = () => {
@@ -13,11 +13,11 @@ const noncePlugin = () => {
       return html
         .replace(
           /<script(?![^>]*nonce=)([^>]*)>/g,
-          `<script nonce="${nonceValue}"$1>`
+          `<script nonce="${cspNonce}"$1>`
         )
         .replace(
           /<style(?![^>]*nonce=)([^>]*)>/g,
-          `<style nonce="${nonceValue}"$1>`
+          `<style nonce="${cspNonce}"$1>`
         );
     },
   };
